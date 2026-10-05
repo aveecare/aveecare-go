@@ -270,7 +270,7 @@ const (
 	IncidentSeverityCritical IncidentSeverity = "Critical"
 )
 
-// IncidentStatus. Where follow-up stands.
+// IncidentStatus. Where follow-up stands. New incidents start `Open`.
 type IncidentStatus string
 
 const (
@@ -3792,7 +3792,7 @@ type Incident struct {
 	Category *IncidentCategory `json:"category"`
 	// How serious it was.
 	Severity *IncidentSeverity `json:"severity"`
-	// Where follow-up stands.
+	// Where follow-up stands. New incidents start `Open`.
 	Status *IncidentStatus `json:"status"`
 	// The patient involved.
 	PatientID *string `json:"patientId"`
@@ -3828,7 +3828,7 @@ type Incident struct {
 	Resolved *bool `json:"resolved"`
 	// How it was resolved.
 	ResolutionNotes *string `json:"resolutionNotes"`
-	// Whether only administrators can see it. Set by office staff; ignored from a caregiver's key.
+	// Whether only administrators can see it.
 	IsConfidential *bool `json:"isConfidential"`
 	// Who reported it.
 	ReportedByName *string `json:"reportedByName"`
@@ -3854,7 +3854,8 @@ type IncidentCreate struct {
 	Category Nullable[IncidentCategory] `json:"category,omitempty"`
 	// How serious it was.
 	Severity Nullable[IncidentSeverity] `json:"severity,omitempty"`
-	// Where follow-up stands.
+	// Where follow-up stands. New incidents start `Open`. Only keys belonging to office staff can set
+	// this.
 	Status Nullable[IncidentStatus] `json:"status,omitempty"`
 	// The patient involved.
 	PatientID Nullable[string] `json:"patientId,omitempty"`
@@ -3882,15 +3883,15 @@ type IncidentCreate struct {
 	RegulatoryReportRequired Nullable[bool] `json:"regulatoryReportRequired,omitempty"`
 	// Whether follow-up is needed.
 	FollowUpRequired Nullable[bool] `json:"followUpRequired,omitempty"`
-	// When follow-up is due.
+	// When follow-up is due. Only keys belonging to office staff can set this.
 	FollowUpDueAt Nullable[string] `json:"followUpDueAt,omitempty"`
 	// Follow-up notes.
 	FollowUpNotes Nullable[string] `json:"followUpNotes,omitempty"`
-	// Whether the incident is resolved.
+	// Whether the incident is resolved. Only keys belonging to office staff can set this.
 	Resolved Nullable[bool] `json:"resolved,omitempty"`
-	// How it was resolved.
+	// How it was resolved. Only keys belonging to office staff can set this.
 	ResolutionNotes Nullable[string] `json:"resolutionNotes,omitempty"`
-	// Whether only administrators can see it. Set by office staff; ignored from a caregiver's key.
+	// Whether only administrators can see it. Only keys belonging to office staff can set this.
 	IsConfidential Nullable[bool] `json:"isConfidential,omitempty"`
 }
 
@@ -3983,7 +3984,8 @@ type IncidentUpdate struct {
 	Category Nullable[IncidentCategory] `json:"category,omitempty"`
 	// How serious it was.
 	Severity Nullable[IncidentSeverity] `json:"severity,omitempty"`
-	// Where follow-up stands.
+	// Where follow-up stands. New incidents start `Open`. Only keys belonging to office staff can set
+	// this.
 	Status Nullable[IncidentStatus] `json:"status,omitempty"`
 	// The patient involved.
 	PatientID Nullable[string] `json:"patientId,omitempty"`
@@ -4011,15 +4013,15 @@ type IncidentUpdate struct {
 	RegulatoryReportRequired Nullable[bool] `json:"regulatoryReportRequired,omitempty"`
 	// Whether follow-up is needed.
 	FollowUpRequired Nullable[bool] `json:"followUpRequired,omitempty"`
-	// When follow-up is due.
+	// When follow-up is due. Only keys belonging to office staff can set this.
 	FollowUpDueAt Nullable[string] `json:"followUpDueAt,omitempty"`
 	// Follow-up notes.
 	FollowUpNotes Nullable[string] `json:"followUpNotes,omitempty"`
-	// Whether the incident is resolved.
+	// Whether the incident is resolved. Only keys belonging to office staff can set this.
 	Resolved Nullable[bool] `json:"resolved,omitempty"`
-	// How it was resolved.
+	// How it was resolved. Only keys belonging to office staff can set this.
 	ResolutionNotes Nullable[string] `json:"resolutionNotes,omitempty"`
-	// Whether only administrators can see it. Set by office staff; ignored from a caregiver's key.
+	// Whether only administrators can see it. Only keys belonging to office staff can set this.
 	IsConfidential Nullable[bool] `json:"isConfidential,omitempty"`
 }
 
