@@ -1,0 +1,28 @@
+name: Release
+
+on:
+  push:
+    tags: ['v*']
+
+permissions:
+  contents: write
+
+jobs:
+  release:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-go@v5
+        with:
+          go-version: stable
+      - name: Check the tag matches version.go
+        run: |
+          version=$(sed -n 's/^const Version = "\(.*\)"$/\1/p' version.go)
+          test "v${version}" = "${GITHUB_REF_NAME}"
+      - run: go vet ./...
+      - run: go test ./...
+      # Go modules are published by the tag itself; no registry secret is needed.
+      - name: Create the GitHub release
+        run: gh release create "${GITHUB_REF_NAME}" --generate-notes
+        env:
+          GH_TOKEN: ${{ github.token }}
