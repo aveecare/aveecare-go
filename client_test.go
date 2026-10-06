@@ -101,7 +101,7 @@ func TestHeadersAndMe(t *testing.T) {
 		writeJSON(w, 200, map[string]any{
 			"object": "me", "id": "Xk3mP9qR2tLw", "name": "Payroll export", "scopes": []string{"read", "write"},
 			"role": "RootUser", "email": "avery@example.com", "expiresAt": "2027-10-05T00:00:00.000Z",
-			"organization": map[string]any{"id": "org_1", "name": "Sunrise Home Care"},
+			"organization": map[string]any{"id": "org_1", "name": "AveeCare Demo Agency"},
 		})
 	})
 	c := newClient(t, srv)
@@ -109,7 +109,7 @@ func TestHeadersAndMe(t *testing.T) {
 	if err != nil {
 		t.Fatal(err)
 	}
-	if me.Organization.Name == nil || *me.Organization.Name != "Sunrise Home Care" || me.Name == nil || *me.Name != "Payroll export" {
+	if me.Organization.Name == nil || *me.Organization.Name != "AveeCare Demo Agency" || me.Name == nil || *me.Name != "Payroll export" {
 		t.Fatalf("unexpected me: %+v", me)
 	}
 	if len(me.Scopes) != 2 || me.Scopes[1] != aveecare.MeScopeWrite || me.Role != aveecare.MeRoleRootUser {
