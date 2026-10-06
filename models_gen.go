@@ -8,7 +8,8 @@ import (
 )
 
 // PatientLifecycleStage. Whether this person is a prospective client or an admitted client. `null`
-// means client.
+// means client. Prospects appear in the prospective-patient pool in AveeCare, not on the patient
+// roster.
 type PatientLifecycleStage string
 
 const (
@@ -50,7 +51,8 @@ const (
 
 // PatientCreateStatus. The client's status as shown in AveeCare. `Inactive` and `Discharged` mean
 // the person is no longer receiving care. A prospective client (`lifecycleStage: Prospect`) reads
-// `Prospect` even if you send `Active`.
+// `Prospect` even if you send `Active`. Creating a patient with `Prospect` makes them a
+// prospective client. Defaults to `Active`.
 type PatientCreateStatus string
 
 const (
@@ -431,14 +433,17 @@ type Patient struct {
 	// Contact email address.
 	Email *string `json:"email"`
 	// Whether the patient is an active client. Only active clients are scheduled and billed. A
-	// prospective client is always inactive.
+	// prospective client is always inactive. If you leave it out on create, it is `false` for a
+	// prospect or an `Inactive` or `Discharged` status and `true` otherwise.
 	Active *bool `json:"active"`
 	// The client's status as shown in AveeCare. `Inactive` and `Discharged` mean the person is no
 	// longer receiving care. A prospective client (`lifecycleStage: Prospect`) reads `Prospect` even
-	// if you send `Active`. Usually one of `Active`, `Inactive`, `Prospect`, `Discharged`; records
+	// if you send `Active`. Creating a patient with `Prospect` makes them a prospective client.
+	// Defaults to `Active`. Usually one of `Active`, `Inactive`, `Prospect`, `Discharged`; records
 	// imported from another system can hold other values.
 	Status *string `json:"status"`
 	// Whether this person is a prospective client or an admitted client. `null` means client.
+	// Prospects appear in the prospective-patient pool in AveeCare, not on the patient roster.
 	LifecycleStage *PatientLifecycleStage `json:"lifecycleStage"`
 	// The main type of service the patient receives.
 	ServiceType *PatientServiceType `json:"serviceType"`
@@ -511,13 +516,16 @@ type PatientCreate struct {
 	// Contact email address.
 	Email Nullable[string] `json:"email,omitempty"`
 	// Whether the patient is an active client. Only active clients are scheduled and billed. A
-	// prospective client is always inactive.
+	// prospective client is always inactive. If you leave it out on create, it is `false` for a
+	// prospect or an `Inactive` or `Discharged` status and `true` otherwise.
 	Active Nullable[bool] `json:"active,omitempty"`
 	// The client's status as shown in AveeCare. `Inactive` and `Discharged` mean the person is no
 	// longer receiving care. A prospective client (`lifecycleStage: Prospect`) reads `Prospect` even
-	// if you send `Active`.
+	// if you send `Active`. Creating a patient with `Prospect` makes them a prospective client.
+	// Defaults to `Active`.
 	Status Nullable[PatientCreateStatus] `json:"status,omitempty"`
 	// Whether this person is a prospective client or an admitted client. `null` means client.
+	// Prospects appear in the prospective-patient pool in AveeCare, not on the patient roster.
 	LifecycleStage Nullable[PatientLifecycleStage] `json:"lifecycleStage,omitempty"`
 	// The main type of service the patient receives.
 	ServiceType Nullable[PatientServiceType] `json:"serviceType,omitempty"`
@@ -686,13 +694,16 @@ type PatientUpdate struct {
 	// Contact email address.
 	Email Nullable[string] `json:"email,omitempty"`
 	// Whether the patient is an active client. Only active clients are scheduled and billed. A
-	// prospective client is always inactive.
+	// prospective client is always inactive. If you leave it out on create, it is `false` for a
+	// prospect or an `Inactive` or `Discharged` status and `true` otherwise.
 	Active Nullable[bool] `json:"active,omitempty"`
 	// The client's status as shown in AveeCare. `Inactive` and `Discharged` mean the person is no
 	// longer receiving care. A prospective client (`lifecycleStage: Prospect`) reads `Prospect` even
-	// if you send `Active`.
+	// if you send `Active`. Creating a patient with `Prospect` makes them a prospective client.
+	// Defaults to `Active`.
 	Status Nullable[PatientCreateStatus] `json:"status,omitempty"`
 	// Whether this person is a prospective client or an admitted client. `null` means client.
+	// Prospects appear in the prospective-patient pool in AveeCare, not on the patient roster.
 	LifecycleStage Nullable[PatientLifecycleStage] `json:"lifecycleStage,omitempty"`
 	// The main type of service the patient receives.
 	ServiceType Nullable[PatientServiceType] `json:"serviceType,omitempty"`
@@ -1603,7 +1614,8 @@ type Caregiver struct {
 	Email *string `json:"email"`
 	// Employment status.
 	Status *CaregiverStatus `json:"status"`
-	// Whether the caregiver can be scheduled.
+	// Whether the caregiver can be scheduled. If you leave it out on create, it is `false` for an
+	// `Inactive` status and `true` otherwise.
 	Active *bool `json:"active"`
 	// Date of birth.
 	DateOfBirth *string `json:"dateOfBirth"`
@@ -1657,7 +1669,8 @@ type CaregiverCreate struct {
 	Email Nullable[string] `json:"email,omitempty"`
 	// Employment status.
 	Status Nullable[CaregiverStatus] `json:"status,omitempty"`
-	// Whether the caregiver can be scheduled.
+	// Whether the caregiver can be scheduled. If you leave it out on create, it is `false` for an
+	// `Inactive` status and `true` otherwise.
 	Active Nullable[bool] `json:"active,omitempty"`
 	// Date of birth.
 	DateOfBirth Nullable[string] `json:"dateOfBirth,omitempty"`
@@ -1774,7 +1787,8 @@ type CaregiverUpdate struct {
 	Email Nullable[string] `json:"email,omitempty"`
 	// Employment status.
 	Status Nullable[CaregiverStatus] `json:"status,omitempty"`
-	// Whether the caregiver can be scheduled.
+	// Whether the caregiver can be scheduled. If you leave it out on create, it is `false` for an
+	// `Inactive` status and `true` otherwise.
 	Active Nullable[bool] `json:"active,omitempty"`
 	// Date of birth.
 	DateOfBirth Nullable[string] `json:"dateOfBirth,omitempty"`
